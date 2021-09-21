@@ -1,0 +1,81 @@
+// NOTE: below we provide some example accounts.
+// DON'T this account in any working environment because everyone can check it and use
+// the private keys (this accounts are visible to everyone).
+
+// NOTE: to be able to execute transactions, you need to use an active account with
+// a sufficient ALGO balance.
+
+/**
+   Check our /docs/algob-config.md documentation (https://github.com/scale-it/algorand-builder/blob/master/docs/algob-config.md) for more configuration options and ways how to
+  load a private keys:
+  + using mnemonic
+  + using binary secret key
+  + using KMD daemon
+  + loading from a file
+  + loading from an environment variable
+  + ...
+*/
+
+const { mkAccounts } = require('@algo-builder/algob');
+const accounts = mkAccounts([
+  {
+    name: 'master-account',
+    // This account is created using `make setup-master-account` command from our
+    // `/infrastructure` directory.
+    // It is used in all our examples to setup and fund other accounts (so it must posses ALGOs).
+    // If you don't want an account with this address (can check that by running
+    // `goal account list -d $ALGORAND_DATA`) then change it to other account you control.
+    addr: 'T6RCKBTUSUQ6WQFXUCAOR6OWSW3NEWWG3RWQF7IFSGQ5IK67DNZHA6SYII',
+    // To export a mnemonic you may use the following command:
+    // goal account export -a "your_account_address" -d $ALGORAND_DATA
+    mnemonic: 'axis naive cattle cheese absent guard fix guess river priority client oxygen boil spawn razor flight vote plunge raccoon cannon frequent pioneer quarter above zebra'
+  },
+  {
+    name: 'bob',
+    addr: 'E5NYFMJHTL7LOPJXFEKUJDNJ2DVU7EALAKJ67GENSGWWFFMH2QMTJKU6KE',
+    mnemonic: 'exact blur spoon regret dizzy wild long idle swing luxury certain brisk twelve swallow wisdom gas stove juice lucky bicycle rent cradle torch able tissue'
+  }, {
+    name: 'alice',
+    addr: '7IS2YMABMVZUII6AXSPNSXJ7ICL2T4VNAAZCC4R6TQUIYPWTHI2Z75HTK4',
+    mnemonic: 'nerve clutch hill town sponsor ice clog else filter stock inflict myth festival absorb shaft album onion daring record arctic where govern gloom abandon edit'
+  }
+]);
+
+// ## ACCOUNTS loaded from a FILE ##
+// const { loadAccountsFromFileSync } = require("@algo-builder/algob");
+// const accFromFile = loadAccountsFromFileSync("assets/accounts_generated.yaml");
+// accounts = accounts.concat(accFromFile);
+
+/// ## Enabling KMD access
+/// Please check https://github.com/scale-it/algorand-builder/blob/master/docs/algob-config.md#credentials for more details and more methods.
+
+// process.env.$KMD_DATA = "/path_to/KMD_DATA";
+// let kmdCred = KMDCredentialsFromEnv();
+
+// ## Algod Credentials
+// You can set the credentials directly in this file:
+
+const defaultCfg = {
+  host: 'http://localhost',
+  port: 4001, // change to 4001 if using sandbox
+  // update to 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' if using sandbox
+  token: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+  // you can also load accounts from KMD, look at /docs/algob-config.md for more details.
+  accounts: accounts
+};
+
+module.exports = {
+  networks: {
+    default: defaultCfg
+  }
+};
+
+// NOTICE: This config provides sample accounts.
+// DON'T use these accounts in any public environment because everyone can see and use them.
+// The private keys of these accounts are visible to everyone.
+// This means that they can spend the funds and assets.
+
+/**
+   Check our /docs/algob-config.md documentation for more ways how to
+   load a private keys.
+*/

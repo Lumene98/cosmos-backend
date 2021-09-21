@@ -1,0 +1,274 @@
+#pragma version 3
+gtxn 1 OnCompletion
+int OptIn
+==
+bnz l9
+gtxn 0 OnCompletion
+int NoOp
+==
+bnz l3
+err
+l3:
+gtxna 0 ApplicationArgs 0
+byte "b"
+==
+bnz l7
+gtxna 0 ApplicationArgs 0
+byte "rce"
+==
+bnz l6
+err
+l6:
+global GroupSize
+int 4
+==
+gtxn 0 Sender
+gtxn 3 Receiver
+==
+&&
+gtxn 0 TypeEnum
+int appl
+==
+gtxn 0 ApplicationID
+int 24615060
+==
+&&
+&&
+gtxna 0 Accounts 1
+gtxn 2 Sender
+==
+&&
+gtxn 0 Fee
+global GroupSize
+int 1000
+*
+==
+&&
+gtxn 1 TypeEnum
+int axfer
+==
+&&
+gtxn 1 Fee
+int 0
+==
+&&
+gtxn 1 AssetAmount
+int 0
+==
+gtxn 1 AssetAmount
+int 1
+==
+||
+&&
+gtxn 1 AssetReceiver
+addr 7IS2YMABMVZUII6AXSPNSXJ7ICL2T4VNAAZCC4R6TQUIYPWTHI2Z75HTK4
+==
+&&
+gtxn 1 AssetReceiver
+gtxn 3 Receiver
+==
+&&
+gtxn 1 XferAsset
+int 24614645
+==
+&&
+gtxn 1 AssetCloseTo
+gtxn 1 Sender
+==
+&&
+gtxn 0 TypeEnum
+int appl
+==
+gtxn 0 ApplicationID
+int 24615060
+==
+&&
+&&
+gtxn 2 TypeEnum
+int appl
+==
+&&
+gtxn 2 OnCompletion
+int CloseOut
+==
+&&
+gtxna 0 Accounts 1
+gtxn 2 Sender
+==
+&&
+gtxn 2 Fee
+int 0
+==
+&&
+gtxn 2 Sender
+gtxn 3 Sender
+==
+&&
+gtxn 3 TypeEnum
+int pay
+==
+&&
+gtxn 3 Amount
+int 0
+==
+&&
+gtxn 3 Fee
+int 0
+==
+&&
+gtxn 3 CloseRemainderTo
+gtxn 3 Receiver
+==
+&&
+assert
+int 1
+b l8
+l7:
+global GroupSize
+int 3
+==
+gtxn 0 TypeEnum
+int appl
+==
+gtxn 0 ApplicationID
+int 24615060
+==
+&&
+&&
+gtxna 0 Accounts 1
+gtxn 2 Sender
+==
+&&
+gtxn 1 TypeEnum
+int pay
+==
+&&
+gtxn 1 Fee
+global GroupSize
+int 1000
+*
+==
+&&
+gtxn 1 CloseRemainderTo
+global ZeroAddress
+==
+&&
+gtxn 2 TypeEnum
+int axfer
+==
+&&
+gtxn 2 XferAsset
+int 24614645
+==
+&&
+gtxn 2 Fee
+int 0
+==
+&&
+assert
+int 1
+l8:
+b l12
+l9:
+gtxna 2 ApplicationArgs 0
+byte "cs"
+==
+gtxna 2 ApplicationArgs 0
+byte "ca"
+==
+||
+bnz l11
+err
+l11:
+gtxn 0 Fee
+int 0
+==
+global GroupSize
+int 4
+==
+int 0
+gtxns TypeEnum
+int axfer
+==
+&&
+int 0
+gtxns Sender
+int 0
+gtxns AssetReceiver
+==
+&&
+int 0
+gtxns XferAsset
+int 24614645
+==
+&&
+int 0
+gtxns AssetAmount
+int 0
+==
+&&
+int 0
+gtxns Fee
+int 0
+==
+&&
+&&
+assert
+int 1
+gtxn 1 Fee
+int 0
+==
+int 2
+gtxns TypeEnum
+int appl
+==
+int 2
+gtxns ApplicationID
+int 24615060
+==
+&&
+&&
+assert
+int 1
+&&
+assert
+global GroupSize
+int 4
+==
+gtxn 2 Sender
+addr 7IS2YMABMVZUII6AXSPNSXJ7ICL2T4VNAAZCC4R6TQUIYPWTHI2Z75HTK4
+==
+&&
+gtxn 2 Sender
+gtxn 3 Sender
+==
+&&
+gtxna 2 Accounts 1
+gtxn 1 Sender
+==
+gtxna 2 Accounts 1
+gtxn 0 Sender
+==
+&&
+&&
+gtxn 3 TypeEnum
+int axfer
+==
+&&
+gtxn 3 XferAsset
+int 24614645
+==
+&&
+gtxn 3 AssetAmount
+int 1
+==
+&&
+gtxn 3 Fee
+global GroupSize
+int 1000
+*
+==
+&&
+assert
+int 1
+l12:

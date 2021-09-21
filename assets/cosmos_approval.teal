@@ -1,0 +1,289 @@
+#pragma version 3
+txn ApplicationID
+int 0
+==
+bnz l22
+txn OnCompletion
+int CloseOut
+==
+bnz l21
+txn OnCompletion
+int OptIn
+==
+bnz l20
+txn OnCompletion
+int NoOp
+==
+bnz l5
+err
+l5:
+txna ApplicationArgs 0
+byte "cs"
+==
+bnz l18
+txna ApplicationArgs 0
+byte "ca"
+==
+bnz l17
+txna ApplicationArgs 0
+byte "b"
+==
+bnz l13
+txna ApplicationArgs 0
+byte "oa"
+==
+bnz l12
+txna ApplicationArgs 0
+byte "rce"
+==
+bnz l11
+err
+l11:
+global GroupSize
+int 4
+==
+txn NumAppArgs
+int 1
+==
+&&
+assert
+int 1
+byte "user_address"
+app_local_get
+txn Sender
+==
+assert
+int 1
+byte "user_address"
+app_local_del
+int 1
+byte "end_round"
+app_local_del
+int 1
+byte "assetID"
+app_local_del
+int 1
+b l19
+l12:
+global GroupSize
+int 1
+==
+txn NumAppArgs
+int 2
+==
+&&
+assert
+global Round
+int 1
+byte "end_round"
+app_local_get
+<=
+txna ApplicationArgs 1
+btoi
+int 1
+byte "price"
+app_local_get
+>
+&&
+assert
+int 1
+byte "price"
+txna ApplicationArgs 1
+btoi
+app_local_put
+int 1
+byte "offering_address"
+txn Sender
+app_local_put
+int 1
+b l19
+l13:
+global GroupSize
+int 3
+==
+txn NumAppArgs
+int 1
+==
+&&
+int 1
+byte "sold"
+app_local_get
+int 1
+!=
+&&
+assert
+int 1
+global CurrentApplicationID
+byte "end_round"
+app_local_get_ex
+store 2
+store 3
+load 2
+bnz l15
+gtxn 1 Amount
+int 1
+byte "price"
+app_local_get
+==
+int 1
+byte "assetID"
+app_local_get
+gtxn 2 XferAsset
+==
+&&
+assert
+int 1
+byte "sold"
+int 1
+app_local_put
+byte "total_value_exchanged"
+byte "total_value_exchanged"
+app_global_get
+gtxn 1 Amount
++
+app_global_put
+int 1
+b l16
+l15:
+global Round
+int 1
+byte "end_round"
+app_local_get
+>
+gtxn 1 Amount
+int 1
+byte "price"
+app_local_get
+==
+&&
+gtxn 1 Sender
+int 1
+byte "offering_address"
+app_local_get
+==
+&&
+int 1
+byte "assetID"
+app_local_get
+gtxn 2 XferAsset
+==
+&&
+assert
+int 1
+byte "sold"
+int 1
+app_local_put
+byte "total_value_exchanged"
+byte "total_value_exchanged"
+app_global_get
+gtxn 1 Amount
++
+app_global_put
+int 1
+l16:
+b l19
+l17:
+global GroupSize
+int 4
+==
+txn NumAppArgs
+int 3
+==
+&&
+assert
+int 1
+byte "user_address"
+txn Sender
+app_local_put
+int 1
+byte "price"
+txna ApplicationArgs 1
+btoi
+app_local_put
+int 1
+byte "end_round"
+txna ApplicationArgs 2
+btoi
+app_local_put
+int 1
+byte "assetID"
+gtxn 3 XferAsset
+app_local_put
+int 0
+asset_params_get AssetReserve
+store 0
+store 1
+load 0
+load 1
+byte "god"
+app_global_get
+==
+&&
+txna Assets 0
+int 3
+gtxns XferAsset
+==
+&&
+assert
+int 1
+b l19
+l18:
+global GroupSize
+int 4
+==
+txn NumAppArgs
+int 2
+==
+&&
+assert
+int 1
+byte "user_address"
+txn Sender
+app_local_put
+int 1
+byte "price"
+txna ApplicationArgs 1
+btoi
+app_local_put
+int 1
+byte "assetID"
+gtxn 3 XferAsset
+app_local_put
+int 0
+asset_params_get AssetReserve
+store 0
+store 1
+load 0
+load 1
+byte "god"
+app_global_get
+==
+&&
+txna Assets 0
+int 3
+gtxns XferAsset
+==
+&&
+assert
+int 1
+l19:
+b l23
+l20:
+int 1
+b l23
+l21:
+int 1
+b l23
+l22:
+global GroupSize
+int 1
+==
+assert
+byte "total_value_exchanged"
+int 0
+app_global_put
+byte "god"
+txn Sender
+app_global_put
+int 1
+l23:

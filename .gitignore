@@ -1,3 +1,11 @@
+# editors
+.vscode
+.idea
+*.iml
+
+# private notes
+private[_-]*
+
 # Logs
 logs
 *.log
@@ -35,11 +43,11 @@ bower_components
 .lock-wscript
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
+build/
 
 # Dependency directories
-node_modules/
-jspm_packages/
+/node_modules
+/packages/*/node_modules
 
 # TypeScript v1 declaration files
 typings/
@@ -102,3 +110,12 @@ dist
 
 # TernJS port file
 .tern-port
+
+artifacts/
+
+# python
+__pycache__/
+venv/
+
+algo-builder/
+generated-src/
